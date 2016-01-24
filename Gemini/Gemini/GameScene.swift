@@ -9,38 +9,39 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var firstHero:SKSpriteNode!
+    var firstHeroCKPosition:CGPoint!
+    
     override func didMoveToView(view: SKView) {
         /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Gemini"
-        myLabel.fontSize = 45
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        let planeTexture = SKTexture(imageNamed: "Spaceship")
+        let plane = SKSpriteNode(texture: planeTexture)
+        plane.position = CGPointMake(size.width * 0.5, size.height * 0.5)
+        plane.setScale(0.1)
+        self.firstHero = plane
+        addChild(plane)
         
-        self.addChild(myLabel)
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
        /* Called when a touch begins */
+        print("began")
+        self.firstHeroCKPosition = touches.first!.locationInNode(self)
+
         
-        for touch in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        <#code#>
+        print("moved")
+        let touch = touches.first
+        let currentTouch = touch!.locationInNode(self)
+        
+        let dx = currentTouch.x - self.firstHeroCKPosition.x
+        let dy = currentTouch.y - self.firstHeroCKPosition.y
+        self.firstHero.position.x += dx
+        self.firstHero.position.y += dy
+        self.firstHeroCKPosition = currentTouch
+        
     }
    
     override func update(currentTime: CFTimeInterval) {
