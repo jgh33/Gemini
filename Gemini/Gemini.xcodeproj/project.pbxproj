@@ -295,6 +295,7 @@
 				D5A484D51C54D5E60095175D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

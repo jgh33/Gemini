@@ -17,8 +17,8 @@ class GameScene: SKScene {
     var firstHeroCKPosition:CGPoint!
     
     var secondHero:SKSpriteNode!
-    var speedX:UIAccelerationValue=0
-    var speedY:UIAccelerationValue=0
+//    var speedX:UIAccelerationValue=0
+//    var speedY:UIAccelerationValue=0
     var motionManager = CMMotionManager()
     
     override func didMoveToView(view: SKView) {
@@ -43,32 +43,35 @@ class GameScene: SKScene {
         
         if(motionManager.accelerometerAvailable)
         {
+            
             let queue = NSOperationQueue.currentQueue()
             motionManager.startAccelerometerUpdatesToQueue(queue!, withHandler: {(accelerometerData : CMAccelerometerData?, error : NSError?) in
-                
+             
                 //动态设置第二战机位置
-                self.speedX += accelerometerData!.acceleration.x
-                self.speedY +=  accelerometerData!.acceleration.y
-                var posX=self.secondHero.position.x + CGFloat(self.speedX)
-                var posY=self.secondHero.position.y - CGFloat(self.speedY)
+//                self.speedX += accelerometerData!.acceleration.x
+//                self.speedY += accelerometerData!.acceleration.y
+                var posX = self.secondHero.position.x + CGFloat(accelerometerData!.acceleration.x) * 15
+                var posY = self.secondHero.position.y + CGFloat(accelerometerData!.acceleration.y) * 15
+                
+                print(accelerometerData!.acceleration)
                 
                 //碰到边框后的反弹处理
                 if posX < 0 {
                     posX = 0
-                    self.speedX = 0
+//                    self.speedX = 0
                 }else if (posX > ww) {
                     posX = ww
-                    self.speedX = 0
+//                    self.speedX = 0
                 }
                 
                 if ( posY < 0 ){
                     posY = 0
                     //碰到上面的边框不反弹
-                    self.speedY = 0
+//                    self.speedY = 0
                 } else if posY > hh{
                     posY = hh
                     //碰到下面的边框以1.5倍的速度反弹
-                    self.speedY = 0
+//                    self.speedY = 0
                 }
                 self.secondHero.position = CGPointMake(posX, posY)
                 
